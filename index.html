@@ -18,19 +18,79 @@
       background: rgba(0, 0, 0, 0.6);
       z-index: 1;
     }
+    header {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 1rem;
+    }
+    header img {
+      max-width: 120px;
+      margin-bottom: 1rem;
+    }
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    header h2 {
+      font-size: 1.2rem;
+      color: #ccc;
+    }
+
+    /* Login Form */
+    .login-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2rem;
+      border-radius: 1rem;
+      max-width: 350px;
+      width: 90%;
+      color: #000;
+      z-index: 2;
+      display: none; /* Hidden initially */
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .login-container h3 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .login-container input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #ccc;
+    }
+    .login-container button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .login-container button:hover {
+      background-color: #005bb5;
+    }
+
+    /* Dashboard */
     .container {
       position: relative;
       z-index: 2;
       padding: 2rem;
-      text-align: center;
+      display: none; /* Hidden until login */
     }
-    h1 {font-size: 2.5rem; margin-bottom: 0.5rem;}
-    h2 {font-size: 1.5rem; margin-bottom: 2rem; color: #ccc;}
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.5rem;
       justify-items: center;
+      margin-top: 2rem;
     }
     .card {
       background: rgba(255, 255, 255, 0.9);
@@ -41,6 +101,7 @@
       max-width: 250px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       transition: transform 0.3s ease;
+      text-align: center;
     }
     .card:hover {transform: translateY(-5px);}
     .card h3 {font-size: 1.2rem; margin-bottom: 0.5rem;}
@@ -50,29 +111,40 @@
 </head>
 <body>
   <div class="overlay"></div>
-  <div class="container">
+
+  <!-- Header with Logo -->
+  <header>
+    <img src="https://via.placeholder.com/120x120?text=CTU+Logo" alt="CTU Logo">
     <h1>CTU CCMSC Mountain Satellite Campus</h1>
     <h2>Library Management System Dashboard</h2>
+  </header>
 
+  <!-- Login Form -->
+  <div class="login-container" id="loginForm">
+    <h3>Login</h3>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="container" id="dashboard">
     <div class="cards">
       <div class="card">
         <span>📚</span>
         <h3>Total Books</h3>
         <p id="totalBooks">0</p>
       </div>
-
       <div class="card">
         <span>👥</span>
         <h3>Registered Students</h3>
         <p id="totalStudents">0</p>
       </div>
-
       <div class="card">
         <span>📖</span>
         <h3>Borrowed Books</h3>
         <p id="borrowedBooks">0</p>
       </div>
-
       <div class="card">
         <span>⚠️</span>
         <h3>Overdue Books</h3>
@@ -104,11 +176,26 @@
       }, stepTime);
     }
 
-    // Animate all dashboard values
-    animateValue("totalBooks", 0, data.totalBooks, 1500);
-    animateValue("totalStudents", 0, data.totalStudents, 1500);
-    animateValue("borrowedBooks", 0, data.borrowedBooks, 1500);
-    animateValue("overdueBooks", 0, data.overdueBooks, 1500);
+    // Show dashboard after login
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      // Simple static check (replace with real authentication)
+      if(user === "admin" && pass === "admin") {
+        document.getElementById('loginForm').style.display = "none";
+        document.getElementById('dashboard').style.display = "block";
+        // Animate counters
+        animateValue("totalBooks", 0, data.totalBooks, 1500);
+        animateValue("totalStudents", 0, data.totalStudents, 1500);
+        animateValue("borrowedBooks", 0, data.borrowedBooks, 1500);
+        animateValue("overdueBooks", 0, data.overdueBooks, 1500);
+      } else {
+        alert("Incorrect username or password!");
+      }
+    }
+
+    // Show login form initially
+    document.getElementById('loginForm').style.display = "block";
   </script>
 </body>
-</html>
+    </html>
