@@ -6,51 +6,52 @@
   <title>CTU CCMSC Library Dashboard</title>
   <style>
     * {margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif;}
+    
     body {
       min-height: 100vh;
-      background: url('https://via.placeholder.com/1600x900?text=CTU+CCMSC+Mountain+Satellite+Campus') no-repeat center center/cover;
+      background: linear-gradient(135deg, #f093fb, #f5576c);
       color: white;
       position: relative;
     }
-    .overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 1;
-    }
+
     header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
       position: relative;
       z-index: 2;
+    }
+
+    .title {
       text-align: center;
-      padding: 1rem;
+      flex: 1;
     }
-    header img {
-      max-width: 120px;
-      margin-bottom: 1rem;
+
+    .title h1 {font-size: 2rem; margin-bottom: 0.5rem;}
+    .title h2 {font-size: 1rem; color: #ffe;}
+    .title p {margin-top: 0.5rem; font-style: italic; font-size: 1rem;}
+
+    /* Login Icon */
+    .login-icon {
+      cursor: pointer;
+      font-size: 1.5rem;
+      padding: 0.5rem;
+      transition: transform 0.2s ease;
     }
-    header h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    header h2 {
-      font-size: 1.2rem;
-      color: #ccc;
-    }
+    .login-icon:hover {transform: scale(1.2);}
 
     /* Login Form */
     .login-container {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 255, 255, 0.9);
-      padding: 2rem;
+      top: 70px;
+      right: 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 1.5rem;
       border-radius: 1rem;
-      max-width: 350px;
-      width: 90%;
+      width: 250px;
       color: #000;
-      z-index: 2;
-      display: none; /* Hidden initially */
+      display: none;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     .login-container h3 {
@@ -59,14 +60,14 @@
     }
     .login-container input {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.7rem;
       margin-bottom: 1rem;
       border-radius: 0.5rem;
       border: 1px solid #ccc;
     }
     .login-container button {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.7rem;
       background-color: #0073e6;
       color: white;
       border: none;
@@ -74,34 +75,27 @@
       cursor: pointer;
       font-weight: bold;
     }
-    .login-container button:hover {
-      background-color: #005bb5;
-    }
+    .login-container button:hover {background-color: #005bb5;}
 
     /* Dashboard */
     .container {
-      position: relative;
-      z-index: 2;
       padding: 2rem;
-      display: none; /* Hidden until login */
-    }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
       gap: 1.5rem;
-      justify-items: center;
       margin-top: 2rem;
     }
+
     .card {
       background: rgba(255, 255, 255, 0.9);
       color: #000;
       border-radius: 1rem;
       padding: 1.5rem;
-      width: 100%;
-      max-width: 250px;
+      width: 220px;
+      text-align: center;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       transition: transform 0.3s ease;
-      text-align: center;
     }
     .card:hover {transform: translateY(-5px);}
     .card h3 {font-size: 1.2rem; margin-bottom: 0.5rem;}
@@ -110,13 +104,15 @@
   </style>
 </head>
 <body>
-  <div class="overlay"></div>
 
-  <!-- Header with Logo -->
+  <!-- Header -->
   <header>
-    <img src="https://via.placeholder.com/120x120?text=CTU+Logo" alt="CTU Logo">
-    <h1>CTU CCMSC Mountain Satellite Campus</h1>
-    <h2>Library Management System Dashboard</h2>
+    <div class="title">
+      <h1>CTU CCMSC Mountain Satellite Campus</h1>
+      <h2>Library Management System</h2>
+      <p>"Knowledge, Service, Excellence"</p>
+    </div>
+    <div class="login-icon" onclick="toggleLogin()" title="Login">🔒</div>
   </header>
 
   <!-- Login Form -->
@@ -127,75 +123,49 @@
     <button onclick="login()">Login</button>
   </div>
 
-  <!-- Dashboard -->
-  <div class="container" id="dashboard">
-    <div class="cards">
-      <div class="card">
-        <span>📚</span>
-        <h3>Total Books</h3>
-        <p id="totalBooks">0</p>
-      </div>
-      <div class="card">
-        <span>👥</span>
-        <h3>Registered Students</h3>
-        <p id="totalStudents">0</p>
-      </div>
-      <div class="card">
-        <span>📖</span>
-        <h3>Borrowed Books</h3>
-        <p id="borrowedBooks">0</p>
-      </div>
-      <div class="card">
-        <span>⚠️</span>
-        <h3>Overdue Books</h3>
-        <p id="overdueBooks">0</p>
-      </div>
+  <!-- Dashboard Cards -->
+  <div class="container">
+    <div class="card">
+      <span>📚</span>
+      <h3>Total Books</h3>
+      <p id="totalBooks">1250</p>
+    </div>
+    <div class="card">
+      <span>👥</span>
+      <h3>Registered Students</h3>
+      <p id="totalStudents">540</p>
+    </div>
+    <div class="card">
+      <span>📖</span>
+      <h3>Borrowed Books</h3>
+      <p id="borrowedBooks">120</p>
+    </div>
+    <div class="card">
+      <span>⚠️</span>
+      <h3>Overdue Books</h3>
+      <p id="overdueBooks">15</p>
     </div>
   </div>
 
   <script>
-    // Sample data
-    const data = {
-      totalBooks: 1250,
-      totalStudents: 540,
-      borrowedBooks: 120,
-      overdueBooks: 15
-    };
-
-    // Animate counters
-    function animateValue(id, start, end, duration) {
-      let obj = document.getElementById(id);
-      let range = end - start;
-      let current = start;
-      let increment = end > start ? 1 : -1;
-      let stepTime = Math.abs(Math.floor(duration / range));
-      let timer = setInterval(() => {
-        current += increment;
-        obj.textContent = current;
-        if (current == end) clearInterval(timer);
-      }, stepTime);
+    // Toggle login form visibility
+    function toggleLogin() {
+      const form = document.getElementById('loginForm');
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
     }
 
-    // Show dashboard after login
+    // Dummy login function
     function login() {
       const user = document.getElementById('username').value;
       const pass = document.getElementById('password').value;
-      // Simple static check (replace with real authentication)
       if(user === "admin" && pass === "admin") {
-        document.getElementById('loginForm').style.display = "none";
-        document.getElementById('dashboard').style.display = "block";
-        // Animate counters
-        animateValue("totalBooks", 0, data.totalBooks, 1500);
-        animateValue("totalStudents", 0, data.totalStudents, 1500);
-        animateValue("borrowedBooks", 0, data.borrowedBooks, 1500);
-        animateValue("overdueBooks", 0, data.overdueBooks, 1500);
+        alert("Login Successful!");
+        document.getElementById('loginForm').style.display = 'none';
       } else {
         alert("Incorrect username or password!");
       }
     }
-
-    // Show login form initially
-    document.getElementById('loginForm').style.display = "block";
   </script>
+
 </body>
-    </html>
+</html>
